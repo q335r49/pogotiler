@@ -1,34 +1,33 @@
 import numpy
 import bisect
-# import pyqtgraph as pg
 
 TC = \
-[[2,2,2,2,2,1,2,0,1,2,2,2,2,2,2,2,2,2], 
- [3,2,1,1,2,3,1,0,3,2,2,2,2,1,3,2,3,1],
- [2,3,2,2,2,1,3,2,1,2,2,3,1,2,2,2,2,2],
- [2,2,2,1,1,1,2,1,0,2,2,3,2,2,2,2,2,3],
- [2,2,0,3,2,3,1,2,3,3,2,1,3,2,2,2,2,2],
- [2,1,3,2,1,2,3,2,1,3,2,2,2,2,3,2,2,2],
- [2,1,1,1,2,2,2,1,1,1,2,3,2,3,2,2,3,1],
- [0,2,2,2,2,2,2,3,2,2,2,2,2,3,2,2,1,2],
- [2,2,2,2,2,3,2,2,1,1,1,2,1,2,3,2,2,3],
- [2,2,2,2,2,1,3,2,3,1,1,3,2,2,3,1,2,2],
- [2,2,2,2,3,3,2,2,2,3,1,1,2,2,2,1,2,2],
- [2,2,1,1,3,3,1,2,1,1,3,1,2,2,2,1,2,2],
- [2,2,3,2,0,2,2,2,2,2,3,1,1,2,2,1,2,2],
- [2,3,2,3,2,2,2,2,1,2,2,2,2,1,2,2,0,2],
- [2,2,3,2,3,2,2,2,1,1,1,3,2,2,1,3,2,2],
- [2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,3,2,0],
- [2,1,2,2,2,2,2,3,2,2,2,2,2,3,2,2,1,1],
- [2,3,2,1,2,2,2,2,1,1,2,2,2,2,2,3,3,2]]
-types=18
+[[2, 2, 2, 2, 2, 1, 2, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+ [3, 2, 1, 1, 2, 3, 1, 0, 3, 2, 2, 2, 2, 1, 3, 2, 3, 1],
+ [2, 3, 2, 2, 2, 1, 3, 2, 1, 2, 2, 3, 1, 2, 2, 2, 2, 2],
+ [2, 2, 2, 1, 1, 1, 2, 1, 0, 2, 2, 3, 2, 2, 2, 2, 2, 3],
+ [2, 2, 0, 3, 2, 3, 1, 2, 3, 3, 2, 1, 3, 2, 2, 2, 2, 2],
+ [2, 1, 3, 2, 1, 2, 3, 2, 1, 3, 2, 2, 2, 2, 3, 2, 2, 2],
+ [2, 1, 1, 1, 2, 2, 2, 1, 1, 1, 2, 3, 2, 3, 2, 2, 3, 1],
+ [0, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 1, 2],
+ [2, 2, 2, 2, 2, 3, 2, 2, 1, 1, 1, 2, 1, 2, 3, 2, 2, 3],
+ [2, 2, 2, 2, 2, 1, 3, 2, 3, 1, 1, 3, 2, 2, 3, 1, 2, 2],
+ [2, 2, 2, 2, 3, 3, 2, 2, 2, 3, 1, 1, 2, 2, 2, 1, 2, 2],
+ [2, 2, 1, 1, 3, 3, 1, 2, 1, 1, 3, 1, 2, 2, 2, 1, 2, 2],
+ [2, 2, 3, 2, 0, 2, 2, 2, 2, 2, 3, 1, 1, 2, 2, 1, 2, 2],
+ [2, 3, 2, 3, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 0, 2],
+ [2, 2, 3, 2, 3, 2, 2, 2, 1, 1, 1, 3, 2, 2, 1, 3, 2, 2],
+ [2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 3, 2, 0],
+ [2, 1, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 1, 1],
+ [2, 3, 2, 1, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 3, 3, 2]]
+types = 18
 grid = [0]*types
 grid_h = 4
 grid_v = 4
 
 for d in range(types):
-    grid[d]=[[[] for i in range(grid_h)] for j in range(grid_v)]
-    grid[d][2][2]=[20]
+    grid[d] = [[[] for i in range(grid_h)] for j in range(grid_v)]
+    grid[d][2][2] = [20]
     for a in range(types):
         if TC[d][a] != 2 or TC[a][d] != 2:
             grid[d][TC[d][a]][TC[a][d]] += [a]
@@ -36,14 +35,15 @@ for d in range(types):
 def printGrid(mat):
     block_size = 25
     blank = " "*block_size
-    print("\n  "+"0:"+" "*(block_size-2)+
-                 "1:"+" "*(block_size-2)+
-                 "2:"+" "*(block_size-2)+
-                 "3:"+" "*(block_size-2))
+    print("\n"+
+          "0:"+" "*(block_size-2)+
+          "1:"+" "*(block_size-2)+
+          "2:"+" "*(block_size-2)+
+          "3:"+" "*(block_size-2))
     for i in range(len(mat)):
         row = ""
         for j in range(len(mat[i])):
-            if len(mat[i][j])>0:
+            if len(mat[i][j]) > 0:
                 block = ""
                 for k in range(len(mat[i][j])):
                     block += "."+ str(mat[i][j][k])
@@ -55,8 +55,6 @@ def printGrid(mat):
 branch = [[[] for i in range(6)] for j in range(types)]
 for ref in range(types):
     for comp in range(types):
-        if ref == comp:
-            continue
         if len(grid[ref][0][1])*len(grid[comp][3][0])+\
            len(grid[ref][0][2])*len(grid[comp][3][1])+\
            len(grid[ref][0][3])*len(grid[comp][3][2]) == 0:
@@ -87,8 +85,9 @@ for ref in range(types):
 
 class Tarr:
     compat = branch
-    indexed = [0,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1]
-    names = ["nor", "fig", "fly", "poi", "gro", "roc", "bug", "gho", "ste", "fir", "wat", "gra", "ele", "psy", "ice", "dra", "dar", "fai"]
+    names = ["nor", "fig", "fly", "poi", "gro", "roc",
+             "bug", "gho", "ste", "fir", "wat", "gra",
+             "ele", "psy", "ice", "dra", "dar", "fai", "___"]
     types = 18
     @staticmethod
     def printCompat():
@@ -101,126 +100,212 @@ class Tarr:
                     names += " " + Tarr.names[Tarr.compat[i][j][k]]
                 print(names)
     @staticmethod
-    def inArray(hay,need):
+    def match(hay, need):
         i = bisect.bisect_left(hay, need)
         if i != len(hay) and hay[i] == need:
             return True
         return False
     def __init__(self):
         self.pos = 0
-        self.arr = [0]*Tarr.types
-        self.arr[0] = -1
-        self.base = [0]*Tarr.types
-        self.occ = [0]*Tarr.types
-        self.solution = False
-    @classmethod
-    def from_arr(cls,startArr,startPos):
-        ret = cls()
-        if len(startArr) < types:
-            ret.arr = startArr + [0]*(types-len(startArr))
-        elif len(startArr) > types:
-            ret.arr = startArr[:types]
-        else:
-            ret.arr = startArr[:]
-        ret.pos = startPos
-        ret.base = [0]*Tarr.types
-        ret.occ = [0]*Tarr.types
-        for i in range(startPos):
-            if Tarr.indexed[i]:
-                ret.base[i] = Tarr.compat[ret.base[i-1]][1][ret.arr[i]]
-            else:
-                ret.base[i] = ret.arr[i]
-            ret.occ[ret.base[i]] = 1
-        return ret
+        self.arr = [Tarr.types] * Tarr.types
+        self.ord = list(range(types))
+        self.slots = len(self.ord)
+        self.occ = [0] * Tarr.types
+        self.overflow = False
+    def startat(pos, arr, order):
+        self.ord = order
+        self.arr = arr
+        self.slots = len(self.ord)
+        self.pos = pos
+        for i in range(self.pos):
+            self.occ[self.arr[self.ord[self.pos]]] = 1
     def printDebug(self):
-        print("\npos: " + str(self.pos) + "\na: " + str(self.arr) + "\no: " + str(self.occ) + "\nb: " + str(self.base))
-        Tarr.printNames(self.base)
-    def print(self,label="",quality=16):
-        if self.pos>quality or self.solution:
-            cutoff = types if self.solution else self.pos
-            print(label +"\n"+
-                (Tarr.names[self.base[0]]  if cutoff >  0 else "") +" "+
-                (Tarr.names[self.base[3]]  if cutoff >  3 else "") +" "+
-                (Tarr.names[self.base[6]]  if cutoff >  6 else "") +" "+
-                (Tarr.names[self.base[9]]  if cutoff >  9 else "") +" "+
-                (Tarr.names[self.base[12]] if cutoff > 12 else "") +" "+
-                (Tarr.names[self.base[15]] if cutoff > 15 else "") +"\n"+("*" if self.solution else str(self.pos)) +" "+
-                (Tarr.names[self.base[2]]  if cutoff >  2 else "") +" "+
-                (Tarr.names[self.base[5]]  if cutoff >  5 else "") +" "+
-                (Tarr.names[self.base[8]]  if cutoff >  8 else "") +" "+
-                (Tarr.names[self.base[11]] if cutoff > 11 else "") +" "+
-                (Tarr.names[self.base[14]] if cutoff > 14 else "") +" "+
-                (Tarr.names[self.base[17]] if cutoff > 17 else "") +"\n"+
-                (Tarr.names[self.base[1]]  if cutoff >  1 else "") +" "+
-                (Tarr.names[self.base[4]]  if cutoff >  4 else "") +" "+
-                (Tarr.names[self.base[7]]  if cutoff >  7 else "") +" "+
-                (Tarr.names[self.base[10]] if cutoff > 10 else "") +" "+
-                (Tarr.names[self.base[13]] if cutoff > 13 else "") +" "+
-                (Tarr.names[self.base[16]] if cutoff > 16 else "") +"\n")
-    def isCompat(self,node,val):
+        print("\npos: " + str(self.pos) +
+              "\narr: " + str(self.arr) +
+              "\nocc: " + str(self.occ) +
+              "\nimm: " + str(self.imm) +
+              "\nord: " + str(self.ord))
+    def print(self, label=""):
+        print(label +"\n"+ \
+              Tarr.names[self.arr[0]] + " "+
+              Tarr.names[self.arr[3]] + " "+
+              Tarr.names[self.arr[6]] + " "+
+              Tarr.names[self.arr[9]] + " "+
+              Tarr.names[self.arr[12]]+" "+
+              Tarr.names[self.arr[15]]+"\n" + str(self.pos) + " " +
+              Tarr.names[self.arr[2]] +" "+
+              Tarr.names[self.arr[5]] +" "+
+              Tarr.names[self.arr[8]] +" "+
+              Tarr.names[self.arr[11]]+" "+
+              Tarr.names[self.arr[14]]+" "+
+              Tarr.names[self.arr[17]]+"\n" +
+              Tarr.names[self.arr[1]] +" "+
+              Tarr.names[self.arr[4]] +" "+
+              Tarr.names[self.arr[7]] +" "+
+              Tarr.names[self.arr[10]]+" "+
+              Tarr.names[self.arr[13]]+" "+
+              Tarr.names[self.arr[16]]+"\n")
+    def fits(self, node, val):
         if node%3 == 1 and (val == 4 or val == 16 or val == 17):
             return False
         elif node%3 == 0 and (val == 12 or val == 13 or val == 15):
             return False
-        elif node <= 1:
-            return True
+        elif node == 0:
+            if (self.arr[3] == Tarr.types or self.match(self.compat[self.arr[3]][5], val)) and \
+               (self.arr[2] == Tarr.types or self.match(self.compat[self.arr[2]][3], val)):
+                return True
+            return False
+        elif node == 1:
+            if (self.arr[2] == Tarr.types or self.match(self.compat[self.arr[2]][4], val)) and \
+               (self.arr[4] == Tarr.types or self.match(self.compat[self.arr[4]][5], val)):
+                return True
+            return False
         elif node == 2:
-            return self.inArray(Tarr.compat[self.base[0]][3],val)
-        elif node%3 == 0:
-            return self.inArray(Tarr.compat[self.base[node-3]][2],val)
-        else:
-            return self.inArray(Tarr.compat[self.base[node-3]][2],val) and self.inArray(Tarr.compat[self.base[node-2]][3],val)
+            if (self.arr[0] == Tarr.types or self.match(self.compat[self.arr[0]][3], val)) and \
+               (self.arr[3] == Tarr.types or self.match(self.compat[self.arr[3]][4], val)) and \
+               (self.arr[5] == Tarr.types or self.match(self.compat[self.arr[5]][5], val)) and \
+               (self.arr[4] == Tarr.types or self.match(self.compat[self.arr[4]][0], val)) and \
+               (self.arr[1] == Tarr.types or self.match(self.compat[self.arr[1]][1], val)):
+                return True
+            return False
+        elif node == 3:
+            if (self.arr[6] == Tarr.types or self.match(self.compat[self.arr[6]][5], val)) and \
+               (self.arr[5] == Tarr.types or self.match(self.compat[self.arr[5]][0], val)) and \
+               (self.arr[2] == Tarr.types or self.match(self.compat[self.arr[2]][1], val)) and \
+               (self.arr[0] == Tarr.types or self.match(self.compat[self.arr[0]][2], val)):
+                return True
+            return False
+        elif node == 4:
+            if (self.arr[2] == Tarr.types or self.match(self.compat[self.arr[2]][3], val)) and \
+               (self.arr[5] == Tarr.types or self.match(self.compat[self.arr[5]][4], val)) and \
+               (self.arr[7] == Tarr.types or self.match(self.compat[self.arr[7]][5], val)) and \
+               (self.arr[1] == Tarr.types or self.match(self.compat[self.arr[1]][2], val)):
+                return True
+            return False
+        elif node == 5:
+            if (self.arr[3] == Tarr.types or self.match(self.compat[self.arr[3]][3], val)) and \
+               (self.arr[6] == Tarr.types or self.match(self.compat[self.arr[6]][4], val)) and \
+               (self.arr[8] == Tarr.types or self.match(self.compat[self.arr[8]][5], val)) and \
+               (self.arr[7] == Tarr.types or self.match(self.compat[self.arr[7]][0], val)) and \
+               (self.arr[4] == Tarr.types or self.match(self.compat[self.arr[4]][1], val)) and \
+               (self.arr[2] == Tarr.types or self.match(self.compat[self.arr[2]][2], val)):
+                return True
+            return False
+        elif node == 6:
+            if (self.arr[9] == Tarr.types or self.match(self.compat[self.arr[9]][5], val)) and \
+               (self.arr[8] == Tarr.types or self.match(self.compat[self.arr[8]][0], val)) and \
+               (self.arr[5] == Tarr.types or self.match(self.compat[self.arr[5]][1], val)) and \
+               (self.arr[3] == Tarr.types or self.match(self.compat[self.arr[3]][2], val)):
+                return True
+            return False
+        elif node == 7:
+            if (self.arr[5] == Tarr.types or self.match(self.compat[self.arr[5] ][3], val)) and \
+               (self.arr[8] == Tarr.types or self.match(self.compat[self.arr[8] ][4], val)) and \
+               (self.arr[10]== Tarr.types or self.match(self.compat[self.arr[10]][5], val)) and \
+               (self.arr[4] == Tarr.types or self.match(self.compat[self.arr[4] ][2], val)):
+                return True
+            return False
+        elif node == 8:
+            if (self.arr[6] == Tarr.types or self.match(self.compat[self.arr[6] ][3], val)) and \
+               (self.arr[9] == Tarr.types or self.match(self.compat[self.arr[9] ][4], val)) and \
+               (self.arr[11]== Tarr.types or self.match(self.compat[self.arr[11]][5], val)) and \
+               (self.arr[10]== Tarr.types or self.match(self.compat[self.arr[10]][0], val)) and \
+               (self.arr[7] == Tarr.types or self.match(self.compat[self.arr[7] ][1], val)) and \
+               (self.arr[5] == Tarr.types or self.match(self.compat[self.arr[5] ][2], val)):
+                return True
+            return False
+        elif node == 9:
+            if (self.arr[12]== Tarr.types or self.match(self.compat[self.arr[12]][5], val)) and \
+               (self.arr[11]== Tarr.types or self.match(self.compat[self.arr[11]][0], val)) and \
+               (self.arr[8] == Tarr.types or self.match(self.compat[self.arr[8] ][1], val)) and \
+               (self.arr[6] == Tarr.types or self.match(self.compat[self.arr[6] ][2], val)):
+                return True
+            return False
+        elif node == 10:
+            if (self.arr[8] == Tarr.types or self.match(self.compat[self.arr[8] ][3], val)) and \
+               (self.arr[11]== Tarr.types or self.match(self.compat[self.arr[11]][4], val)) and \
+               (self.arr[13]== Tarr.types or self.match(self.compat[self.arr[13]][5], val)) and \
+               (self.arr[7] == Tarr.types or self.match(self.compat[self.arr[7] ][2], val)):
+                return True
+            return False
+        elif node == 11:
+            if (self.arr[9] == Tarr.types or self.match(self.compat[self.arr[9 ]][3], val)) and \
+               (self.arr[12]== Tarr.types or self.match(self.compat[self.arr[12]][4], val)) and \
+               (self.arr[14]== Tarr.types or self.match(self.compat[self.arr[14]][5], val)) and \
+               (self.arr[13]== Tarr.types or self.match(self.compat[self.arr[13]][0], val)) and \
+               (self.arr[10]== Tarr.types or self.match(self.compat[self.arr[10]][1], val)) and \
+               (self.arr[8] == Tarr.types or self.match(self.compat[self.arr[8 ]][2], val)):
+                return True
+            return False
+        elif node == 12:
+            if (self.arr[15]== Tarr.types or self.match(self.compat[self.arr[15]][5], val)) and \
+               (self.arr[14]== Tarr.types or self.match(self.compat[self.arr[14]][0], val)) and \
+               (self.arr[11]== Tarr.types or self.match(self.compat[self.arr[11]][1], val)) and \
+               (self.arr[9] == Tarr.types or self.match(self.compat[self.arr[9] ][2], val)):
+                return True
+            return False
+        elif node == 13:
+            if (self.arr[11]== Tarr.types or self.match(self.compat[self.arr[11]][3], val)) and \
+               (self.arr[14]== Tarr.types or self.match(self.compat[self.arr[14]][4], val)) and \
+               (self.arr[16]== Tarr.types or self.match(self.compat[self.arr[16]][5], val)) and \
+               (self.arr[10]== Tarr.types or self.match(self.compat[self.arr[10]][2], val)):
+                return True
+            return False
+        elif node == 14:
+            if (self.arr[12]== Tarr.types or self.match(self.compat[self.arr[12]][3], val)) and \
+               (self.arr[15]== Tarr.types or self.match(self.compat[self.arr[15]][4], val)) and \
+               (self.arr[17]== Tarr.types or self.match(self.compat[self.arr[17]][5], val)) and \
+               (self.arr[16]== Tarr.types or self.match(self.compat[self.arr[16]][0], val)) and \
+               (self.arr[13]== Tarr.types or self.match(self.compat[self.arr[13]][1], val)) and \
+               (self.arr[11]== Tarr.types or self.match(self.compat[self.arr[11]][2], val)):
+                return True
+            return False
+        elif node == 15:
+            if (self.arr[17]== Tarr.types or self.match(self.compat[self.arr[17]][0], val)) and \
+               (self.arr[14]== Tarr.types or self.match(self.compat[self.arr[14]][1], val)) and \
+               (self.arr[12]== Tarr.types or self.match(self.compat[self.arr[12]][2], val)):
+                return True
+            return False
+        elif node == 16:
+            if (self.arr[14]== Tarr.types or self.match(self.compat[self.arr[14]][3], val)) and \
+               (self.arr[17]== Tarr.types or self.match(self.compat[self.arr[17]][4], val)) and \
+               (self.arr[13]== Tarr.types or self.match(self.compat[self.arr[13]][2], val)):
+                return True
+            return False
+        elif node == 17:
+            if (self.arr[15]== Tarr.types or self.match(self.compat[self.arr[15]][3], val)) and \
+               (self.arr[16]== Tarr.types or self.match(self.compat[self.arr[16]][1], val)) and \
+               (self.arr[14]== Tarr.types or self.match(self.compat[self.arr[14]][2], val)):
+                return True
+            return False
     def inc(self):
-        self.solution = False
-        if Tarr.indexed[self.pos]:
-            src = Tarr.compat[self.base[self.pos-1]][1]
-            ix = self.arr[self.pos]+1
-            while ix < len(src):
-                if not self.occ[src[ix]] and self.isCompat(self.pos,src[ix]):
-                    if self.pos < types-1:
-                        self.arr[self.pos] = ix
-                        self.base[self.pos] = src[ix]
-                        self.occ[src[ix]] = 1
-                        self.pos += 1
-                        self.arr[self.pos] = -1
-                    else:
-                        self.arr[self.pos] = ix
-                        self.base[self.pos] = src[ix]
-                        self.solution = True
-                    break
-                ix += 1
-            if ix == len(src):
+            if self.pos == self.slots:
                 self.pos -= 1
-                self.occ[self.base[self.pos]]=0
-        else:
-            cur = self.arr[self.pos]+1
-            while cur < Tarr.types:
-                if not self.occ[cur] and self.isCompat(self.pos,cur):
-                    self.arr[self.pos] = cur
-                    self.base[self.pos] = cur
-                    self.occ[cur] = 1
-                    self.pos += 1
-                    self.arr[self.pos] = -1 #TODO solution check here too
-                    break
-                cur += 1
-            if cur == Tarr.types:
-                if self.pos > 0:
-                    self.pos -= 1   
-                    self.occ[self.base[self.pos]]=0
+            tile = self.arr[self.ord[self.pos]]
+            if tile == self.types:
+                tile = 0
+            else:
+                tile += 1
+            while tile < self.types:
+                if self.occ[tile] or not self.fits(self.pos,tile):
+                    tile += 1
                 else:
-                    return False
-        return True
-#TODO: Order
-#TODO: Immutable
+                    break
+            if tile == self.types:
+                if self.pos == 0:
+                    self.overflow = True
+                else:
+                    self.pos -= 1
+                    self.occ[self.arr[self.ord[self.pos]]] = 0
+                return
+            self.occ[tile] = 1
+            self.arr[self.ord[self.pos]] = tile
+            self.pos += 1
+            if self.pos < self.slots:
+                 self.arr[self.ord[self.pos]] = self.types
 
-Tarr.printCompat()
-#arr1 = Tarr.from_arr([0, 1, 2, 5, 2, 7, 8, 16, 6, 3, 17, 11, 11, 8, -1, -1, -1, -1],14)
-#arr1 = Tarr.from_arr([0, 7, 12, -1],3)
-'''
-arr1 = Tarr.from_arr([0, 7, 12,-1],3)
-for i in range(2000000):
-    arr1.inc()
-    arr1.print(label = str(i),quality = 20)
-arr1.print(label = "last",quality = 0)
-print(str(arr1.arr)+","+str(arr1.pos))
-'''
+#Tarr.printCompat()
+seq1 = Tarr()
+for i in range(100):
+    seq1.print()
+    seq1.inc()
